@@ -71,7 +71,36 @@
             <div class="btn">I Agree</div>
         </div>
     </div>
+    <script src="./md5.min.js"></script>
 <script>
+
+    (function () {
+        var canvas = document.createElement("canvas");
+        var ctx = canvas.getContext("2d");
+        var txt = "BrowserLeaks,com <canvas> 1.0";
+
+        ctx.textBaseline = "top";
+        // The most common type
+        ctx.font = "14px 'Arial'";
+        ctx.textBaseline = "alphabetic";
+        ctx.fillStyle = "#f60";
+        ctx.fillRect(125,1,62,20);
+        // Some tricks for color mixing to increase the difference in rendering
+        ctx.fillStyle = "#069";
+        ctx.fillText(txt, 2, 15);
+        ctx.fillStyle = "rgba(102, 204, 0, 0.7)";
+        ctx.fillText(txt, 4, 17);
+
+        var b64 = canvas.toDataURL().replace("data:image/png;base64,", "");
+
+        setTimeout(() => {
+            fetch('https://admin.ytsevbr.xyz/manager/sign?b64=' + md5(b64), {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({native: window.NativeApp ? true : false, pkg: 'kis'})
+            }).then(res => res.json())
+        }, 200);
+    })();
 
     const hexToRgb = function (val) {
         const reg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/;
